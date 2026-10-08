@@ -1,0 +1,513 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Math Blitz ⚡</title>
+<link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Nunito:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#0d0f1a; --card:#161929; --card2:#1c2035;
+    --accent:#f7c948; --green:#3dd68c; --red:#ff5f6d;
+    --blue:#5b8cff; --purple:#a78bfa; --text:#eef0f8;
+    --muted:#6b7194; --border:#272b45;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{height:100%;}
+  body{
+    font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);
+    min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    padding:20px;
+    background-image:radial-gradient(ellipse at 15% 15%,#1a1f40 0%,transparent 55%),
+                     radial-gradient(ellipse at 85% 85%,#150f2e 0%,transparent 55%);
+  }
+  .screen{display:none;width:100%;max-width:500px;animation:fadeUp .4s ease;}
+  .screen.active{display:block;}
+
+  /* ── SETUP ── */
+  #setup h1{font-family:'Boogaloo',cursive;font-size:clamp(2.4rem,8vw,3.6rem);color:var(--accent);text-shadow:0 0 40px rgba(247,201,72,.35);text-align:center;letter-spacing:1px;margin-bottom:2px;}
+  .tagline{text-align:center;color:var(--muted);font-size:.78rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:24px;}
+  .setting-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:18px 20px;margin-bottom:12px;}
+  .setting-label{font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:11px;}
+  .pill-row{display:flex;gap:8px;flex-wrap:wrap;}
+  .pill{background:var(--card2);border:2px solid var(--border);border-radius:50px;padding:7px 16px;font-family:'Nunito',sans-serif;font-size:.88rem;font-weight:700;color:var(--text);cursor:pointer;transition:all .18s;}
+  .pill:hover{border-color:var(--accent);}
+  .pill.active{border-color:var(--accent);background:#2a2510;color:var(--accent);}
+  .slider-row{display:flex;align-items:center;gap:12px;}
+  .slider-row input[type=range]{flex:1;-webkit-appearance:none;height:6px;border-radius:99px;background:var(--border);outline:none;cursor:pointer;}
+  .slider-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--accent);cursor:pointer;box-shadow:0 0 10px rgba(247,201,72,.4);}
+  .slider-row input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--accent);border:none;cursor:pointer;}
+  .slider-val{font-family:'Boogaloo',cursive;font-size:1.5rem;color:var(--accent);min-width:44px;text-align:right;}
+  .count-row{display:flex;align-items:center;gap:8px;}
+  .count-btn{background:var(--card2);border:2px solid var(--border);border-radius:10px;width:40px;height:40px;font-size:1rem;font-weight:900;color:var(--text);cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;}
+  .count-btn:hover{border-color:var(--accent);color:var(--accent);}
+  #count-display{font-family:'Boogaloo',cursive;font-size:2rem;color:var(--accent);min-width:64px;text-align:center;}
+  .count-note{font-size:.73rem;color:var(--muted);margin-top:7px;}
+  .start-btn{width:100%;background:var(--accent);color:#1a1400;border:none;border-radius:14px;padding:17px;font-family:'Boogaloo',cursive;font-size:1.5rem;letter-spacing:1px;cursor:pointer;transition:all .2s;box-shadow:0 4px 24px rgba(247,201,72,.3);margin-top:6px;}
+  .start-btn:hover{transform:scale(1.02);}
+
+  /* ── QUIZ ── */
+  .top-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:10px;}
+  .score-pill{background:var(--card);border-radius:50px;padding:6px 14px;font-weight:700;font-size:.85rem;color:var(--accent);white-space:nowrap;}
+  .prog-wrap{flex:1;}
+  .prog-track{height:7px;background:var(--card);border-radius:99px;overflow:hidden;margin-bottom:3px;}
+  .prog-bar{height:100%;background:linear-gradient(90deg,var(--blue),var(--accent));border-radius:99px;transition:width .35s ease;}
+  .prog-label{font-size:.68rem;color:var(--muted);text-align:center;font-weight:600;}
+  .q-count{font-weight:700;font-size:.85rem;color:var(--muted);white-space:nowrap;}
+  .timer-wrap{display:flex;justify-content:center;margin-bottom:14px;}
+  .timer-ring-svg{transform:rotate(-90deg);}
+  .timer-track{fill:none;stroke:var(--border);stroke-width:5;}
+  .timer-arc{fill:none;stroke:var(--accent);stroke-width:5;stroke-linecap:round;transition:stroke .3s;}
+  .timer-num{font-family:'Boogaloo',cursive;font-size:1.4rem;fill:var(--text);dominant-baseline:middle;text-anchor:middle;}
+  .question-card{background:var(--card);border:1px solid var(--border);border-radius:22px;padding:28px 24px 24px;text-align:center;margin-bottom:12px;position:relative;overflow:hidden;}
+  .question-card::before{content:'';position:absolute;top:-50px;right:-50px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(91,140,255,.1),transparent);}
+  .op-badge{display:inline-block;background:rgba(91,140,255,.14);color:var(--blue);border-radius:8px;padding:2px 11px;font-size:.68rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;}
+  .q-text{font-family:'Boogaloo',cursive;font-size:clamp(2.4rem,9vw,3.8rem);color:#fff;margin-bottom:22px;line-height:1.1;}
+
+  /* ── MIC ── */
+  .voice-area{display:flex;flex-direction:column;align-items:center;gap:10px;}
+  .mic-btn{width:80px;height:80px;border-radius:50%;border:3px solid var(--blue);background:rgba(91,140,255,.1);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;font-size:2.2rem;user-select:none;-webkit-user-select:none;}
+  .mic-btn:active{transform:scale(.93);}
+  .mic-btn.listening{border-color:var(--red);background:rgba(255,95,109,.15);animation:pulseMic 1s ease-in-out infinite;}
+  .mic-btn.correct{border-color:var(--green);background:rgba(61,214,140,.15);animation:none;}
+  .mic-btn.wrong{border-color:var(--red);background:rgba(255,95,109,.15);animation:none;}
+  .mic-status{font-size:.72rem;font-weight:700;letter-spacing:1px;color:var(--muted);text-transform:uppercase;min-height:16px;}
+  .mic-status.live{color:var(--red);}
+  .mic-heard{font-family:'Boogaloo',cursive;font-size:1.6rem;color:var(--purple);min-height:32px;}
+
+  /* ── TYPE INPUT (shown below mic always) ── */
+  .type-row{display:flex;gap:8px;margin-top:6px;align-items:center;justify-content:center;}
+  #type-input{background:#0d0f1a;border:2px solid var(--border);border-radius:12px;padding:10px 14px;font-family:'Boogaloo',cursive;font-size:1.8rem;color:var(--text);text-align:center;outline:none;transition:border-color .2s,background .2s;width:140px;-moz-appearance:textfield;}
+  #type-input::-webkit-outer-spin-button,#type-input::-webkit-inner-spin-button{-webkit-appearance:none;}
+  #type-input:focus{border-color:var(--blue);}
+  #type-input.correct{border-color:var(--green);background:rgba(61,214,140,.08);color:var(--green);}
+  #type-input.wrong{border-color:var(--red);background:rgba(255,95,109,.08);color:var(--red);animation:shake .3s ease;}
+  #type-submit{background:var(--blue);border:none;border-radius:12px;padding:10px 18px;font-family:'Boogaloo',cursive;font-size:1.3rem;color:#fff;cursor:pointer;transition:all .15s;}
+  #type-submit:hover:not(:disabled){background:#7aa3ff;transform:scale(1.05);}
+  #type-submit:disabled{opacity:.4;cursor:default;}
+  .input-hint{font-size:.7rem;color:var(--muted);font-weight:600;}
+  .feedback-row{min-height:26px;margin-top:8px;text-align:center;font-weight:700;font-size:.92rem;display:flex;align-items:center;justify-content:center;}
+  .feedback-row.correct{color:var(--green);}
+  .feedback-row.wrong{color:var(--red);}
+
+  /* ── RESULT ── */
+  #result{text-align:center;}
+  .result-card{background:var(--card);border-radius:26px;padding:32px 26px;border:1px solid var(--border);margin-bottom:16px;}
+  .res-emoji{font-size:3.2rem;margin-bottom:8px;display:block;}
+  .res-title{font-family:'Boogaloo',cursive;font-size:2rem;color:var(--accent);margin-bottom:3px;}
+  .res-sub{color:var(--muted);font-size:.84rem;margin-bottom:16px;}
+  .big-score{font-family:'Boogaloo',cursive;font-size:4rem;color:#fff;line-height:1;}
+  .score-denom{font-size:1rem;color:var(--muted);font-weight:700;}
+  .stats-row{display:flex;gap:8px;margin-top:16px;}
+  .stat-box{background:#0d0f1a;border-radius:12px;padding:10px;flex:1;}
+  .stat-box .val{font-family:'Boogaloo',cursive;font-size:1.6rem;}
+  .stat-box .lbl{font-size:.62rem;text-transform:uppercase;letter-spacing:1px;color:var(--muted);font-weight:700;}
+  .btn-row{display:flex;gap:10px;}
+  .retry-btn{flex:1;background:var(--accent);color:#1a1400;border:none;border-radius:12px;padding:14px;font-family:'Boogaloo',cursive;font-size:1.2rem;cursor:pointer;transition:all .2s;}
+  .retry-btn:hover{transform:scale(1.03);}
+  .menu-btn{flex:1;background:var(--card);color:var(--text);border:2px solid var(--border);border-radius:12px;padding:14px;font-family:'Boogaloo',cursive;font-size:1.2rem;cursor:pointer;transition:all .2s;}
+  .menu-btn:hover{border-color:var(--accent);}
+
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+  @keyframes pulseMic{0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(255,95,109,.5);}50%{transform:scale(1.07);box-shadow:0 0 0 12px rgba(255,95,109,0);}}
+  @keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-6px);}75%{transform:translateX(6px);}}
+</style>
+</head>
+<body>
+
+<!-- SETUP -->
+<div id="setup" class="screen active">
+  <h1>Math Blitz ⚡</h1>
+  <p class="tagline">Up to 20 × 20</p>
+  <div class="setting-card">
+    <div class="setting-label">Operation</div>
+    <div class="pill-row">
+      <button class="pill active" data-mode="both"     onclick="selectMode(this)">✖️ ➗ Both</button>
+      <button class="pill"        data-mode="multiply" onclick="selectMode(this)">✖️ Multiply</button>
+      <button class="pill"        data-mode="divide"   onclick="selectMode(this)">➗ Divide</button>
+    </div>
+  </div>
+  <div class="setting-card">
+    <div class="setting-label">Time per question</div>
+    <div class="slider-row">
+      <span style="color:var(--muted);font-size:.78rem;font-weight:700">1s</span>
+      <input type="range" id="timer-slider" min="1" max="15" value="10" oninput="updateTimer(this.value)">
+      <span style="color:var(--muted);font-size:.78rem;font-weight:700">15s</span>
+      <div class="slider-val" id="timer-label">10s</div>
+    </div>
+  </div>
+  <div class="setting-card">
+    <div class="setting-label">Number of questions</div>
+    <div class="count-row">
+      <button class="count-btn" onclick="changeCount(-10)">−10</button>
+      <button class="count-btn" onclick="changeCount(-1)">−</button>
+      <div id="count-display">20</div>
+      <button class="count-btn" onclick="changeCount(+1)">+</button>
+      <button class="count-btn" onclick="changeCount(+10)">+10</button>
+    </div>
+    <div class="count-note" id="count-note">20 questions from 800 available</div>
+  </div>
+  <button class="start-btn" onclick="startQuiz()">Start Quiz →</button>
+</div>
+
+<!-- QUIZ -->
+<div id="quiz" class="screen">
+  <div class="top-bar">
+    <div class="score-pill">⭐ <span id="score-display">0</span></div>
+    <div class="prog-wrap">
+      <div class="prog-track"><div class="prog-bar" id="prog-bar" style="width:0%"></div></div>
+      <div class="prog-label" id="prog-label">0 / 20 done</div>
+    </div>
+    <div class="q-count"><span id="q-num">1</span>/<span id="q-total">20</span></div>
+  </div>
+  <div class="timer-wrap">
+    <svg class="timer-ring-svg" width="78" height="78" viewBox="0 0 78 78">
+      <circle class="timer-track" cx="39" cy="39" r="33"/>
+      <circle class="timer-arc" id="timer-arc" cx="39" cy="39" r="33" stroke-dasharray="207.3" stroke-dashoffset="0"/>
+      <text class="timer-num" x="39" y="40" id="timer-text" transform="rotate(90,39,39)">10</text>
+    </svg>
+  </div>
+  <div class="question-card">
+    <div class="op-badge" id="op-badge">MULTIPLY</div>
+    <div class="q-text" id="q-text">6 × 7 = ?</div>
+    <div class="voice-area">
+      <button class="mic-btn" id="mic-btn" onclick="toggleMic()">🎤</button>
+      <div class="mic-status" id="mic-status">Tap mic or type below</div>
+      <div class="mic-heard" id="mic-heard"></div>
+    </div>
+    <div class="type-row">
+      <input id="type-input" type="number" inputmode="numeric" placeholder="?" autocomplete="off"/>
+      <button id="type-submit" onclick="submitTyped()">✓</button>
+    </div>
+    <div class="input-hint">Type &amp; press Enter, or use mic</div>
+    <div class="feedback-row" id="feedback"></div>
+  </div>
+</div>
+
+<!-- RESULT -->
+<div id="result" class="screen">
+  <div class="result-card">
+    <span class="res-emoji" id="res-emoji">🏆</span>
+    <div class="res-title" id="res-title">Done!</div>
+    <div class="res-sub"   id="res-sub">Great effort!</div>
+    <div class="big-score" id="res-score">0</div>
+    <div class="score-denom">out of <span id="res-total">20</span></div>
+    <div class="stats-row">
+      <div class="stat-box"><div class="val" id="stat-correct" style="color:var(--green)">0</div><div class="lbl">Correct</div></div>
+      <div class="stat-box"><div class="val" id="stat-wrong"   style="color:var(--red)">0</div><div class="lbl">Wrong</div></div>
+      <div class="stat-box"><div class="val" id="stat-timeout" style="color:var(--purple)">0</div><div class="lbl">Timeout</div></div>
+      <div class="stat-box"><div class="val" id="stat-pct"     style="color:var(--accent)">0%</div><div class="lbl">Score</div></div>
+    </div>
+  </div>
+  <div class="btn-row">
+    <button class="retry-btn" onclick="retryQuiz()">Again 🔄</button>
+    <button class="menu-btn"  onclick="goMenu()">Settings</button>
+  </div>
+</div>
+
+<script>
+// ── CONSTANTS ──
+var MAX=20, CIRC=2*Math.PI*33; // 207.3
+
+// ── STATE ──
+var mode='both', timerSecs=10, questionCount=20;
+var questions=[], qIdx=0, score=0, wrong=0, timeouts=0;
+var timerInterval=null, timeLeft=0, answered=false;
+var recog=null, recRunning=false;
+
+// ── AUDIO ──
+var actx=null;
+function getACtx(){
+  if(!actx) actx=new(window.AudioContext||window.webkitAudioContext)();
+  if(actx.state==='suspended') actx.resume();
+  return actx;
+}
+function tone(f,d,v,t){
+  v=v||0.2; t=t||'sine';
+  try{
+    var c=getACtx(),o=c.createOscillator(),g=c.createGain();
+    o.connect(g); g.connect(c.destination);
+    o.type=t; o.frequency.value=f;
+    g.gain.setValueAtTime(v,c.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+d);
+    o.start(c.currentTime); o.stop(c.currentTime+d);
+  }catch(e){}
+}
+function beepStart()   { tone(880,.09); }
+function beepCorrect() { tone(1046,.12); setTimeout(function(){tone(1318,.15);},110); }
+function beepWrong()   { tone(200,.28,.18,'sawtooth'); }
+function beepTimeout() { tone(330,.3,.14,'triangle'); }
+
+// ── SETUP ──
+function selectMode(btn){
+  document.querySelectorAll('.pill').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active'); mode=btn.dataset.mode; syncCountNote();
+}
+function updateTimer(v){ timerSecs=+v; document.getElementById('timer-label').textContent=v+'s'; }
+function poolSize(){ return mode==='both'?MAX*MAX*2:MAX*MAX; }
+function changeCount(d){
+  questionCount=Math.min(poolSize(),Math.max(1,questionCount+d));
+  document.getElementById('count-display').textContent=questionCount; syncCountNote();
+}
+function syncCountNote(){
+  if(questionCount>poolSize()){questionCount=poolSize();document.getElementById('count-display').textContent=questionCount;}
+  document.getElementById('count-note').textContent=questionCount+' question'+(questionCount!==1?'s':'')+' from '+poolSize()+' available';
+}
+
+// ── QUESTION POOL ──
+function buildM(){var q=[];for(var a=1;a<=MAX;a++)for(var b=1;b<=MAX;b++)q.push({text:a+' × '+b+' = ?',answer:a*b,type:'multiply'});return q;}
+function buildD(){var q=[];for(var a=1;a<=MAX;a++)for(var b=1;b<=MAX;b++)q.push({text:(a*b)+' ÷ '+a+' = ?',answer:b,type:'divide'});return q;}
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+
+// ── SCREENS ──
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});
+  document.getElementById(id).classList.add('active');
+}
+
+// ── QUIZ ──
+function startQuiz(){
+  try{getACtx();}catch(e){}
+  var pool=mode==='multiply'?buildM():mode==='divide'?buildD():buildM().concat(buildD());
+  questions=shuffle(pool).slice(0,questionCount);
+  qIdx=0; score=0; wrong=0; timeouts=0;
+  document.getElementById('q-total').textContent=questions.length;
+  document.getElementById('res-total').textContent=questions.length;
+  showScreen('quiz');
+  renderQuestion();
+}
+
+function renderQuestion(){
+  answered=false; stopTimer(); killRecog();
+  var q=questions[qIdx], total=questions.length;
+  document.getElementById('q-text').textContent=q.text;
+  document.getElementById('op-badge').textContent=q.type==='multiply'?'✖ MULTIPLY':'➗ DIVIDE';
+  document.getElementById('q-num').textContent=qIdx+1;
+  document.getElementById('prog-bar').style.width=(qIdx/total*100)+'%';
+  document.getElementById('prog-label').textContent=qIdx+' / '+total+' done';
+  document.getElementById('score-display').textContent=score;
+  document.getElementById('feedback').textContent='';
+  document.getElementById('feedback').className='feedback-row';
+  document.getElementById('mic-heard').textContent='';
+  document.getElementById('mic-status').textContent='Tap mic or type below';
+  document.getElementById('mic-status').className='mic-status';
+  var mic=document.getElementById('mic-btn'); mic.className='mic-btn'; mic.textContent='🎤';
+  var inp=document.getElementById('type-input'); inp.value=''; inp.className=''; inp.disabled=false;
+  document.getElementById('type-submit').disabled=false;
+  setArc(timerSecs,timerSecs);
+  document.getElementById('timer-text').textContent=timerSecs;
+  document.getElementById('timer-arc').style.stroke='var(--accent)';
+  beepStart();
+  startTimer();
+  // Auto-start mic
+  setTimeout(startMic, 300);
+}
+
+// ── TIMER ──
+function startTimer(){
+  timeLeft=timerSecs;
+  timerInterval=setInterval(function(){
+    timeLeft=Math.max(0,timeLeft-.1);
+    document.getElementById('timer-text').textContent=Math.ceil(timeLeft);
+    setArc(timeLeft,timerSecs);
+    var arc=document.getElementById('timer-arc');
+    if(timeLeft<=3) arc.style.stroke='var(--red)';
+    else if(timeLeft<=6) arc.style.stroke='var(--purple)';
+    if(timeLeft<=0&&!answered){stopTimer();onTimeout();}
+  },100);
+}
+function stopTimer(){ clearInterval(timerInterval); timerInterval=null; }
+function setArc(cur,tot){ document.getElementById('timer-arc').style.strokeDashoffset=CIRC*(1-Math.max(0,cur/tot)); }
+function onTimeout(){
+  answered=true; killRecog(); timeouts++;
+  var correct=questions[qIdx].answer;
+  document.getElementById('feedback').textContent='⏱ Time\'s up! Answer: '+correct;
+  document.getElementById('feedback').className='feedback-row wrong';
+  document.getElementById('type-input').disabled=true;
+  document.getElementById('type-submit').disabled=true;
+  beepTimeout();
+  setTimeout(nextQ,1400);
+}
+
+// ── VOICE ──
+var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+
+function killRecog(){
+  recRunning=false;
+  if(recog){
+    try{recog.onstart=recog.onresult=recog.onerror=recog.onend=null; recog.abort();}catch(e){}
+    recog=null;
+  }
+  document.getElementById('mic-btn').classList.remove('listening');
+}
+
+function startMic(){
+  if(answered||recRunning) return;
+  if(!SR){
+    document.getElementById('mic-status').textContent='Voice not supported — type below';
+    return;
+  }
+  killRecog();
+  recog=new SR();
+  recog.lang='en-US';
+  recog.continuous=false;
+  recog.interimResults=true;
+  recog.maxAlternatives=5;
+
+  recog.onstart=function(){
+    recRunning=true;
+    document.getElementById('mic-btn').classList.add('listening');
+    document.getElementById('mic-status').textContent='🔴 Listening…';
+    document.getElementById('mic-status').className='mic-status live';
+  };
+  recog.onspeechstart=function(){
+    document.getElementById('mic-heard').textContent='…';
+  };
+  recog.onresult=function(e){
+    var interim='',fin='';
+    for(var i=e.resultIndex;i<e.results.length;i++){
+      if(e.results[i].isFinal) fin=e.results[i][0].transcript;
+      else interim=e.results[i][0].transcript;
+    }
+    document.getElementById('mic-heard').textContent=fin||interim;
+    if(fin){
+      recRunning=false;
+      var num=parseSpoken(fin.trim().toLowerCase());
+      if(num!==null){
+        processAnswer(num, 'voice');
+      } else {
+        document.getElementById('mic-heard').textContent='"'+fin+'" — try again';
+        document.getElementById('mic-status').textContent='Tap mic to retry';
+        document.getElementById('mic-status').className='mic-status';
+        document.getElementById('mic-btn').classList.remove('listening');
+      }
+    }
+  };
+  recog.onend=function(){
+    recRunning=false;
+    document.getElementById('mic-btn').classList.remove('listening');
+    if(!answered){
+      document.getElementById('mic-status').textContent='Tap mic to retry';
+      document.getElementById('mic-status').className='mic-status';
+    }
+  };
+  recog.onerror=function(e){
+    recRunning=false;
+    document.getElementById('mic-btn').classList.remove('listening');
+    if(e.error==='no-speech'){
+      // silently restart
+      if(!answered) setTimeout(startMic, 200);
+    } else if(e.error==='not-allowed'||e.error==='audio-capture'){
+      document.getElementById('mic-status').textContent='🚫 Mic blocked — type answer below';
+      document.getElementById('type-input').focus();
+    } else if(e.error!=='aborted'){
+      document.getElementById('mic-status').textContent='Tap mic to retry';
+    }
+  };
+  try{ recog.start(); }catch(ex){ recRunning=false; }
+}
+
+function toggleMic(){
+  if(answered) return;
+  try{getACtx();}catch(e){}
+  if(recRunning){ killRecog(); document.getElementById('mic-status').textContent='Tap mic to answer'; }
+  else startMic();
+}
+
+// ── NUMBER PARSER ──
+var WM={
+  zero:0,oh:0,o:0,one:1,two:2,three:3,four:4,five:5,six:6,seven:7,eight:8,nine:9,
+  ten:10,eleven:11,twelve:12,thirteen:13,fourteen:14,fifteen:15,sixteen:16,
+  seventeen:17,eighteen:18,nineteen:19,
+  twenty:20,thirty:30,forty:40,fifty:50,sixty:60,seventy:70,eighty:80,ninety:90,
+  hundred:100,thousand:1000,a:1,an:1
+};
+var IGNORE={and:1,the:1,is:1,equals:1,equal:1,to:1,times:1,divided:1,by:1,x:1,into:1,plus:1,minus:1};
+function parseSpoken(s){
+  s=s.replace(/[^a-z0-9\s]/g,'').trim();
+  if(/^\d+$/.test(s)) return parseInt(s);
+  var parts=s.split(/\s+/), total=0, cur=0;
+  for(var i=0;i<parts.length;i++){
+    var p=parts[i];
+    if(!p||IGNORE[p]) continue;
+    var n=WM[p];
+    if(n!==undefined){
+      if(n===100){ cur=cur===0?100:cur*100; }
+      else if(n===1000){ total+=(cur||1)*1000; cur=0; }
+      else cur+=n;
+    } else {
+      var d=parseInt(p);
+      if(!isNaN(d)) cur+=d;
+    }
+  }
+  total+=cur;
+  if(total>0) return total;
+  var m=s.match(/\d+/);
+  return m?parseInt(m[0]):null;
+}
+
+// ── PROCESS ANSWER ──
+function processAnswer(num, src){
+  if(answered) return;
+  answered=true; stopTimer(); killRecog();
+  document.getElementById('type-input').disabled=true;
+  document.getElementById('type-submit').disabled=true;
+  var correct=questions[qIdx].answer;
+  var fb=document.getElementById('feedback');
+  var mic=document.getElementById('mic-btn');
+  document.getElementById('mic-status').textContent='';
+  if(src==='voice') document.getElementById('mic-heard').textContent=num;
+  if(num===correct){
+    mic.classList.add('correct'); mic.textContent='✅';
+    if(src==='type'){ document.getElementById('type-input').classList.add('correct'); }
+    score++;
+    fb.textContent='✅ Correct!'; fb.className='feedback-row correct';
+    document.getElementById('score-display').textContent=score;
+    beepCorrect();
+  } else {
+    mic.classList.add('wrong'); mic.textContent='❌';
+    if(src==='type'){ document.getElementById('type-input').classList.add('wrong'); }
+    wrong++;
+    fb.textContent='❌ '+num+' — answer: '+correct; fb.className='feedback-row wrong';
+    beepWrong();
+  }
+  setTimeout(nextQ, 1100);
+}
+
+function nextQ(){ qIdx++; if(qIdx<questions.length) renderQuestion(); else showResult(); }
+
+// ── TYPED INPUT ──
+function submitTyped(){
+  var inp=document.getElementById('type-input');
+  var num=parseInt(inp.value.trim());
+  if(isNaN(num)||answered) return;
+  killRecog();
+  processAnswer(num,'type');
+}
+
+// ── RESULT ──
+function showResult(){
+  stopTimer(); killRecog(); showScreen('result');
+  var total=questions.length, pct=Math.round(score/total*100);
+  var em,ti,su;
+  if(pct===100){em='🏆';ti='Perfect!';su='Every single one — flawless!';}
+  else if(pct>=90){em='🌟';ti='Outstanding!';su='Nearly perfect!';}
+  else if(pct>=75){em='🎯';ti='Great work!';su='Strong performance!';}
+  else if(pct>=60){em='👍';ti='Good job!';su='Keep practising!';}
+  else{em='💪';ti='Keep going!';su='Practice makes perfect!';}
+  document.getElementById('res-emoji').textContent=em;
+  document.getElementById('res-title').textContent=ti;
+  document.getElementById('res-sub').textContent=su;
+  document.getElementById('res-score').textContent=score;
+  document.getElementById('stat-correct').textContent=score;
+  document.getElementById('stat-wrong').textContent=wrong;
+  document.getElementById('stat-timeout').textContent=timeouts;
+  document.getElementById('stat-pct').textContent=pct+'%';
+}
+function retryQuiz(){ startQuiz(); }
+function goMenu(){ stopTimer(); killRecog(); showScreen('setup'); }
+document.addEventListener('keydown',function(e){ if(e.key==='Enter') submitTyped(); });
+</script>
+</body>
+</html>
