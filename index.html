@@ -22,12 +22,31 @@
     background-image:radial-gradient(ellipse at 15% 15%,#1a1f40 0%,transparent 55%),
                      radial-gradient(ellipse at 85% 85%,#150f2e 0%,transparent 55%);
   }
-  .screen{display:none;width:100%;max-width:500px;animation:fadeUp .4s ease;}
+  .screen{display:none;width:100%;max-width:460px;animation:fadeUp .4s ease;}
   .screen.active{display:block;}
+
+  /* ── PIN SCREEN ── */
+  #pin-screen{text-align:center;}
+  #pin-screen h1{font-family:'Boogaloo',cursive;font-size:clamp(2.4rem,8vw,3.4rem);color:var(--accent);text-shadow:0 0 40px rgba(247,201,72,.35);letter-spacing:1px;margin-bottom:2px;}
+  .tagline{color:var(--muted);font-size:.78rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:24px;}
+  .pin-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:28px 24px;}
+  .pin-label{font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:18px;}
+  .pin-dots{display:flex;gap:14px;justify-content:center;margin-bottom:16px;}
+  .dot{width:20px;height:20px;border-radius:50%;border:2px solid var(--border);background:transparent;transition:all .15s;}
+  .dot.filled{background:var(--accent);border-color:var(--accent);box-shadow:0 0 10px rgba(247,201,72,.4);}
+  .dot.error{background:var(--red);border-color:var(--red);}
+  .pin-error{color:var(--red);font-size:.82rem;font-weight:700;min-height:20px;margin-bottom:12px;}
+  .numpad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:280px;margin:0 auto;}
+  .num-btn{background:var(--card2);border:2px solid var(--border);border-radius:14px;padding:18px 10px;font-family:'Boogaloo',cursive;font-size:1.6rem;color:var(--text);cursor:pointer;transition:all .15s;}
+  .num-btn:hover{border-color:var(--accent);background:#252840;}
+  .num-btn:active{transform:scale(.93);}
+  .clear-btn{font-size:1.2rem;color:var(--muted);}
+  .go-btn{background:var(--accent);color:#1a1400;border-color:var(--accent);}
+  .go-btn:hover{background:#ffd44a;}
 
   /* ── SETUP ── */
   #setup h1{font-family:'Boogaloo',cursive;font-size:clamp(2.4rem,8vw,3.6rem);color:var(--accent);text-shadow:0 0 40px rgba(247,201,72,.35);text-align:center;letter-spacing:1px;margin-bottom:2px;}
-  .tagline{text-align:center;color:var(--muted);font-size:.78rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:24px;}
+  .setup-tagline{text-align:center;color:var(--muted);font-size:.78rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:24px;}
   .setting-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:18px 20px;margin-bottom:12px;}
   .setting-label{font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:11px;}
   .pill-row{display:flex;gap:8px;flex-wrap:wrap;}
@@ -64,20 +83,16 @@
   .question-card::before{content:'';position:absolute;top:-50px;right:-50px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(91,140,255,.1),transparent);}
   .op-badge{display:inline-block;background:rgba(91,140,255,.14);color:var(--blue);border-radius:8px;padding:2px 11px;font-size:.68rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;}
   .q-text{font-family:'Boogaloo',cursive;font-size:clamp(2.4rem,9vw,3.8rem);color:#fff;margin-bottom:22px;line-height:1.1;}
-
-  /* ── MIC ── */
   .voice-area{display:flex;flex-direction:column;align-items:center;gap:10px;}
-  .mic-btn{width:80px;height:80px;border-radius:50%;border:3px solid var(--blue);background:rgba(91,140,255,.1);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;font-size:2.2rem;user-select:none;-webkit-user-select:none;}
+  .mic-btn{width:86px;height:86px;border-radius:50%;border:3px solid var(--blue);background:rgba(91,140,255,.1);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;font-size:2.4rem;user-select:none;-webkit-user-select:none;}
   .mic-btn:active{transform:scale(.93);}
   .mic-btn.listening{border-color:var(--red);background:rgba(255,95,109,.15);animation:pulseMic 1s ease-in-out infinite;}
   .mic-btn.correct{border-color:var(--green);background:rgba(61,214,140,.15);animation:none;}
   .mic-btn.wrong{border-color:var(--red);background:rgba(255,95,109,.15);animation:none;}
   .mic-status{font-size:.72rem;font-weight:700;letter-spacing:1px;color:var(--muted);text-transform:uppercase;min-height:16px;}
   .mic-status.live{color:var(--red);}
-  .mic-heard{font-family:'Boogaloo',cursive;font-size:1.6rem;color:var(--purple);min-height:32px;}
-
-  /* ── TYPE INPUT (shown below mic always) ── */
-  .type-row{display:flex;gap:8px;margin-top:6px;align-items:center;justify-content:center;}
+  .mic-heard{font-family:'Boogaloo',cursive;font-size:1.8rem;color:var(--purple);min-height:36px;}
+  .type-row{display:flex;gap:8px;margin-top:8px;align-items:center;justify-content:center;}
   #type-input{background:#0d0f1a;border:2px solid var(--border);border-radius:12px;padding:10px 14px;font-family:'Boogaloo',cursive;font-size:1.8rem;color:var(--text);text-align:center;outline:none;transition:border-color .2s,background .2s;width:140px;-moz-appearance:textfield;}
   #type-input::-webkit-outer-spin-button,#type-input::-webkit-inner-spin-button{-webkit-appearance:none;}
   #type-input:focus{border-color:var(--blue);}
@@ -87,7 +102,7 @@
   #type-submit:hover:not(:disabled){background:#7aa3ff;transform:scale(1.05);}
   #type-submit:disabled{opacity:.4;cursor:default;}
   .input-hint{font-size:.7rem;color:var(--muted);font-weight:600;}
-  .feedback-row{min-height:26px;margin-top:8px;text-align:center;font-weight:700;font-size:.92rem;display:flex;align-items:center;justify-content:center;}
+  .feedback-row{min-height:28px;margin-top:8px;text-align:center;font-weight:700;font-size:.95rem;display:flex;align-items:center;justify-content:center;}
   .feedback-row.correct{color:var(--green);}
   .feedback-row.wrong{color:var(--red);}
 
@@ -109,17 +124,70 @@
   .menu-btn{flex:1;background:var(--card);color:var(--text);border:2px solid var(--border);border-radius:12px;padding:14px;font-family:'Boogaloo',cursive;font-size:1.2rem;cursor:pointer;transition:all .2s;}
   .menu-btn:hover{border-color:var(--accent);}
 
+  /* ── TABLE SELECTOR ── */
+  .table-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;}
+  .tbl-btn{background:var(--card2);border:2px solid var(--border);border-radius:10px;padding:9px 4px;font-family:'Boogaloo',cursive;font-size:1.1rem;color:var(--muted);cursor:pointer;transition:all .15s;text-align:center;}
+  .tbl-btn:hover{border-color:var(--accent);color:var(--text);}
+  .tbl-btn.on{border-color:var(--accent);background:#2a2510;color:var(--accent);}
+  .table-actions{display:flex;gap:8px;margin-top:8px;}
+  .tbl-action{flex:1;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:6px;font-family:'Nunito',sans-serif;font-size:.75rem;font-weight:700;color:var(--muted);cursor:pointer;transition:all .15s;}
+  .tbl-action:hover{border-color:var(--accent);color:var(--accent);}
+  .table-note{font-size:.72rem;color:var(--muted);margin-top:7px;}
+
+  /* ── WRONG REVIEW ── */
+  .review-section{margin-top:14px;text-align:left;}
+  .review-title{font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;text-align:center;}
+  .review-list{display:flex;flex-direction:column;gap:7px;max-height:260px;overflow-y:auto;padding-right:2px;}
+  .review-list::-webkit-scrollbar{width:4px;}
+  .review-list::-webkit-scrollbar-track{background:transparent;}
+  .review-list::-webkit-scrollbar-thumb{background:var(--border);border-radius:99px;}
+  .review-row{display:flex;align-items:center;justify-content:space-between;background:#0d0f1a;border-radius:10px;padding:9px 12px;gap:8px;}
+  .review-q{font-family:'Boogaloo',cursive;font-size:1.1rem;color:var(--text);flex:1;}
+  .review-yours{font-family:'Boogaloo',cursive;font-size:1rem;color:var(--red);min-width:54px;text-align:center;}
+  .review-correct{font-family:'Boogaloo',cursive;font-size:1rem;color:var(--green);min-width:54px;text-align:center;}
+  .review-tag{font-size:.6rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);}
+
   @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
-  @keyframes pulseMic{0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(255,95,109,.5);}50%{transform:scale(1.07);box-shadow:0 0 0 12px rgba(255,95,109,0);}}
+  @keyframes pulseMic{0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(255,95,109,.5);}50%{transform:scale(1.08);box-shadow:0 0 0 14px rgba(255,95,109,0);}}
   @keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-6px);}75%{transform:translateX(6px);}}
 </style>
 </head>
 <body>
 
-<!-- SETUP -->
-<div id="setup" class="screen active">
+<!-- PIN -->
+<div id="pin-screen" class="screen active">
   <h1>Math Blitz ⚡</h1>
-  <p class="tagline">Up to 20 × 20</p>
+  <p class="tagline">Enter PIN to play</p>
+  <div class="pin-card">
+    <div class="pin-label">🔒 Enter your 4-digit PIN</div>
+    <div class="pin-dots">
+      <span class="dot" id="d0"></span>
+      <span class="dot" id="d1"></span>
+      <span class="dot" id="d2"></span>
+      <span class="dot" id="d3"></span>
+    </div>
+    <div class="pin-error" id="pin-error"></div>
+    <div class="numpad">
+      <button class="num-btn" onclick="pinKey(1)">1</button>
+      <button class="num-btn" onclick="pinKey(2)">2</button>
+      <button class="num-btn" onclick="pinKey(3)">3</button>
+      <button class="num-btn" onclick="pinKey(4)">4</button>
+      <button class="num-btn" onclick="pinKey(5)">5</button>
+      <button class="num-btn" onclick="pinKey(6)">6</button>
+      <button class="num-btn" onclick="pinKey(7)">7</button>
+      <button class="num-btn" onclick="pinKey(8)">8</button>
+      <button class="num-btn" onclick="pinKey(9)">9</button>
+      <button class="num-btn clear-btn" onclick="pinClear()">⌫</button>
+      <button class="num-btn" onclick="pinKey(0)">0</button>
+      <button class="num-btn go-btn" onclick="pinSubmit()">GO</button>
+    </div>
+  </div>
+</div>
+
+<!-- SETUP -->
+<div id="setup" class="screen">
+  <h1>Math Blitz ⚡</h1>
+  <p class="setup-tagline">Up to 20 × 20</p>
   <div class="setting-card">
     <div class="setting-label">Operation</div>
     <div class="pill-row">
@@ -147,6 +215,17 @@
       <button class="count-btn" onclick="changeCount(+10)">+10</button>
     </div>
     <div class="count-note" id="count-note">20 questions from 800 available</div>
+  </div>
+  <div class="setting-card">
+    <div class="setting-label">Tables to practise</div>
+    <div class="table-grid" id="table-grid"></div>
+    <div class="table-actions">
+      <button class="tbl-action" onclick="tableSelectAll()">Select All</button>
+      <button class="tbl-action" onclick="tableSelectNone()">Clear All</button>
+      <button class="tbl-action" onclick="tableSelect([2,5,10])">2, 5, 10</button>
+      <button class="tbl-action" onclick="tableSelect([6,7,8,9])">6–9</button>
+    </div>
+    <div class="table-note" id="table-note">All 20 tables selected</div>
   </div>
   <button class="start-btn" onclick="startQuiz()">Start Quiz →</button>
 </div>
@@ -180,7 +259,7 @@
       <input id="type-input" type="number" inputmode="numeric" placeholder="?" autocomplete="off"/>
       <button id="type-submit" onclick="submitTyped()">✓</button>
     </div>
-    <div class="input-hint">Type &amp; press Enter, or use mic</div>
+    <div class="input-hint">Type &amp; press Enter, or use mic 🎤</div>
     <div class="feedback-row" id="feedback"></div>
   </div>
 </div>
@@ -200,19 +279,113 @@
       <div class="stat-box"><div class="val" id="stat-pct"     style="color:var(--accent)">0%</div><div class="lbl">Score</div></div>
     </div>
   </div>
-  <div class="btn-row">
+  <div id="review-section" class="review-section" style="display:none">
+    <div class="review-title">❌ Questions to Review</div>
+    <div class="review-list" id="review-list"></div>
+  </div>
+  <div class="btn-row" style="margin-top:14px">
     <button class="retry-btn" onclick="retryQuiz()">Again 🔄</button>
     <button class="menu-btn"  onclick="goMenu()">Settings</button>
   </div>
 </div>
 
 <script>
+// ── PIN ── Change this to any 4-digit PIN you want ──
+var CORRECT_PIN = '1234';
+var pinEntry = '';
+
+function pinKey(n){
+  if(pinEntry.length >= 4) return;
+  pinEntry += n;
+  updateDots();
+  if(pinEntry.length === 4) setTimeout(pinSubmit, 150);
+}
+function pinClear(){
+  pinEntry = pinEntry.slice(0,-1);
+  updateDots();
+  document.getElementById('pin-error').textContent = '';
+}
+function updateDots(){
+  for(var i=0;i<4;i++){
+    var d = document.getElementById('d'+i);
+    d.className = 'dot' + (i < pinEntry.length ? ' filled' : '');
+  }
+}
+function pinSubmit(){
+  if(pinEntry === CORRECT_PIN){
+    showScreen('setup');
+  } else {
+    document.getElementById('pin-error').textContent = 'Wrong PIN — try again';
+    for(var i=0;i<4;i++) document.getElementById('d'+i).className='dot error';
+    setTimeout(function(){
+      pinEntry=''; updateDots();
+      document.getElementById('pin-error').textContent='';
+    }, 800);
+  }
+}
+document.addEventListener('keydown', function(e){
+  if(document.getElementById('pin-screen').classList.contains('active')){
+    if(e.key>='0'&&e.key<='9') pinKey(parseInt(e.key));
+    else if(e.key==='Backspace') pinClear();
+    else if(e.key==='Enter') pinSubmit();
+  }
+});
+
 // ── CONSTANTS ──
-var MAX=20, CIRC=2*Math.PI*33; // 207.3
+var MAX=20, CIRC=2*Math.PI*33;
+
+// ── TABLE SELECTION ──
+var selectedTables=[];
+(function initTables(){
+  // start with all selected
+  for(var i=1;i<=MAX;i++) selectedTables.push(i);
+})();
+
+function buildTableGrid(){
+  var grid=document.getElementById('table-grid');
+  grid.innerHTML='';
+  for(var i=1;i<=MAX;i++){
+    var btn=document.createElement('button');
+    btn.className='tbl-btn'+(selectedTables.indexOf(i)>=0?' on':'');
+    btn.textContent=i+'×';
+    btn.dataset.t=i;
+    btn.onclick=function(){ toggleTable(parseInt(this.dataset.t)); };
+    grid.appendChild(btn);
+  }
+  syncTableNote();
+}
+function toggleTable(n){
+  var idx=selectedTables.indexOf(n);
+  if(idx>=0){ if(selectedTables.length>1) selectedTables.splice(idx,1); }
+  else selectedTables.push(n);
+  selectedTables.sort(function(a,b){return a-b;});
+  buildTableGrid();
+  syncCountNote();
+}
+function tableSelectAll(){
+  selectedTables=[];
+  for(var i=1;i<=MAX;i++) selectedTables.push(i);
+  buildTableGrid(); syncCountNote();
+}
+function tableSelectNone(){
+  selectedTables=[1]; // always keep at least one
+  buildTableGrid(); syncCountNote();
+}
+function tableSelect(arr){
+  selectedTables=arr.slice();
+  buildTableGrid(); syncCountNote();
+}
+function syncTableNote(){
+  var el=document.getElementById('table-note');
+  if(!el) return;
+  if(selectedTables.length===MAX) el.textContent='All '+MAX+' tables selected';
+  else el.textContent='Tables: '+selectedTables.join(', ');
+}
 
 // ── STATE ──
 var mode='both', timerSecs=10, questionCount=20;
 var questions=[], qIdx=0, score=0, wrong=0, timeouts=0;
+var mistakes=[]; // {q, yours, correct}
 var timerInterval=null, timeLeft=0, answered=false;
 var recog=null, recRunning=false;
 
@@ -245,7 +418,7 @@ function selectMode(btn){
   btn.classList.add('active'); mode=btn.dataset.mode; syncCountNote();
 }
 function updateTimer(v){ timerSecs=+v; document.getElementById('timer-label').textContent=v+'s'; }
-function poolSize(){ return mode==='both'?MAX*MAX*2:MAX*MAX; }
+function poolSize(){ var base=selectedTables.length*MAX; return mode==='both'?base*2:base; }
 function changeCount(d){
   questionCount=Math.min(poolSize(),Math.max(1,questionCount+d));
   document.getElementById('count-display').textContent=questionCount; syncCountNote();
@@ -253,11 +426,26 @@ function changeCount(d){
 function syncCountNote(){
   if(questionCount>poolSize()){questionCount=poolSize();document.getElementById('count-display').textContent=questionCount;}
   document.getElementById('count-note').textContent=questionCount+' question'+(questionCount!==1?'s':'')+' from '+poolSize()+' available';
+  syncTableNote();
 }
 
-// ── QUESTION POOL ──
-function buildM(){var q=[];for(var a=1;a<=MAX;a++)for(var b=1;b<=MAX;b++)q.push({text:a+' × '+b+' = ?',answer:a*b,type:'multiply'});return q;}
-function buildD(){var q=[];for(var a=1;a<=MAX;a++)for(var b=1;b<=MAX;b++)q.push({text:(a*b)+' ÷ '+a+' = ?',answer:b,type:'divide'});return q;}
+// ── POOL ──
+function buildM(){
+  var q=[];
+  for(var i=0;i<selectedTables.length;i++){
+    var a=selectedTables[i];
+    for(var b=1;b<=MAX;b++) q.push({text:a+' \u00d7 '+b+' = ?',answer:a*b,type:'multiply'});
+  }
+  return q;
+}
+function buildD(){
+  var q=[];
+  for(var i=0;i<selectedTables.length;i++){
+    var a=selectedTables[i];
+    for(var b=1;b<=MAX;b++) q.push({text:(a*b)+' \u00f7 '+a+' = ?',answer:b,type:'divide'});
+  }
+  return q;
+}
 function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
 
 // ── SCREENS ──
@@ -271,18 +459,21 @@ function startQuiz(){
   try{getACtx();}catch(e){}
   var pool=mode==='multiply'?buildM():mode==='divide'?buildD():buildM().concat(buildD());
   questions=shuffle(pool).slice(0,questionCount);
-  qIdx=0; score=0; wrong=0; timeouts=0;
+  qIdx=0; score=0; wrong=0; timeouts=0; mistakes=[];
   document.getElementById('q-total').textContent=questions.length;
   document.getElementById('res-total').textContent=questions.length;
   showScreen('quiz');
-  renderQuestion();
+  // Request mic ONCE here on this user gesture — no more per-question prompts
+  ensureMicPermission(function(){
+    renderQuestion();
+  });
 }
 
 function renderQuestion(){
   answered=false; stopTimer(); killRecog();
   var q=questions[qIdx], total=questions.length;
   document.getElementById('q-text').textContent=q.text;
-  document.getElementById('op-badge').textContent=q.type==='multiply'?'✖ MULTIPLY':'➗ DIVIDE';
+  document.getElementById('op-badge').textContent=q.type==='multiply'?'\u00d7 MULTIPLY':'\u00f7 DIVIDE';
   document.getElementById('q-num').textContent=qIdx+1;
   document.getElementById('prog-bar').style.width=(qIdx/total*100)+'%';
   document.getElementById('prog-label').textContent=qIdx+' / '+total+' done';
@@ -290,7 +481,7 @@ function renderQuestion(){
   document.getElementById('feedback').textContent='';
   document.getElementById('feedback').className='feedback-row';
   document.getElementById('mic-heard').textContent='';
-  document.getElementById('mic-status').textContent='Tap mic or type below';
+  document.getElementById('mic-status').textContent='Listening…';
   document.getElementById('mic-status').className='mic-status';
   var mic=document.getElementById('mic-btn'); mic.className='mic-btn'; mic.textContent='🎤';
   var inp=document.getElementById('type-input'); inp.value=''; inp.className=''; inp.disabled=false;
@@ -300,8 +491,7 @@ function renderQuestion(){
   document.getElementById('timer-arc').style.stroke='var(--accent)';
   beepStart();
   startTimer();
-  // Auto-start mic
-  setTimeout(startMic, 300);
+  setTimeout(startMic, 250);
 }
 
 // ── TIMER ──
@@ -326,12 +516,30 @@ function onTimeout(){
   document.getElementById('feedback').className='feedback-row wrong';
   document.getElementById('type-input').disabled=true;
   document.getElementById('type-submit').disabled=true;
+  mistakes.push({q:questions[qIdx].text, yours:'⏱', correct:correct});
   beepTimeout();
   setTimeout(nextQ,1400);
 }
 
 // ── VOICE ──
 var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+var micGranted=false;       // true once getUserMedia succeeds this session
+var micStream=null;         // keep stream alive to hold permission warm
+
+// Call once at quiz start (on a user-gesture) — grants mic for the whole session
+function ensureMicPermission(callback){
+  if(micGranted){ callback(); return; }
+  navigator.mediaDevices.getUserMedia({audio:true})
+    .then(function(stream){
+      micStream=stream; // keep alive — stops browser asking again
+      micGranted=true;
+      callback();
+    })
+    .catch(function(err){
+      document.getElementById('mic-status').textContent='🚫 Mic blocked — allow in browser then refresh';
+      console.warn('mic denied:',err);
+    });
+}
 
 function killRecog(){
   recRunning=false;
@@ -339,7 +547,8 @@ function killRecog(){
     try{recog.onstart=recog.onresult=recog.onerror=recog.onend=null; recog.abort();}catch(e){}
     recog=null;
   }
-  document.getElementById('mic-btn').classList.remove('listening');
+  var mb=document.getElementById('mic-btn');
+  if(mb) mb.classList.remove('listening');
 }
 
 function startMic(){
@@ -375,7 +584,7 @@ function startMic(){
       recRunning=false;
       var num=parseSpoken(fin.trim().toLowerCase());
       if(num!==null){
-        processAnswer(num, 'voice');
+        processAnswer(num,'voice');
       } else {
         document.getElementById('mic-heard').textContent='"'+fin+'" — try again';
         document.getElementById('mic-status').textContent='Tap mic to retry';
@@ -388,21 +597,19 @@ function startMic(){
     recRunning=false;
     document.getElementById('mic-btn').classList.remove('listening');
     if(!answered){
-      document.getElementById('mic-status').textContent='Tap mic to retry';
-      document.getElementById('mic-status').className='mic-status';
+      setTimeout(function(){ if(!answered) startMic(); }, 300);
     }
   };
   recog.onerror=function(e){
     recRunning=false;
     document.getElementById('mic-btn').classList.remove('listening');
     if(e.error==='no-speech'){
-      // silently restart
       if(!answered) setTimeout(startMic, 200);
     } else if(e.error==='not-allowed'||e.error==='audio-capture'){
-      document.getElementById('mic-status').textContent='🚫 Mic blocked — type answer below';
+      document.getElementById('mic-status').textContent='🚫 Allow mic in browser then refresh';
       document.getElementById('type-input').focus();
     } else if(e.error!=='aborted'){
-      document.getElementById('mic-status').textContent='Tap mic to retry';
+      if(!answered) setTimeout(startMic, 400);
     }
   };
   try{ recog.start(); }catch(ex){ recRunning=false; }
@@ -416,21 +623,18 @@ function toggleMic(){
 }
 
 // ── NUMBER PARSER ──
-var WM={
-  zero:0,oh:0,o:0,one:1,two:2,three:3,four:4,five:5,six:6,seven:7,eight:8,nine:9,
+var WM={zero:0,oh:0,o:0,one:1,two:2,three:3,four:4,five:5,six:6,seven:7,eight:8,nine:9,
   ten:10,eleven:11,twelve:12,thirteen:13,fourteen:14,fifteen:15,sixteen:16,
-  seventeen:17,eighteen:18,nineteen:19,
-  twenty:20,thirty:30,forty:40,fifty:50,sixty:60,seventy:70,eighty:80,ninety:90,
-  hundred:100,thousand:1000,a:1,an:1
-};
-var IGNORE={and:1,the:1,is:1,equals:1,equal:1,to:1,times:1,divided:1,by:1,x:1,into:1,plus:1,minus:1};
+  seventeen:17,eighteen:18,nineteen:19,twenty:20,thirty:30,forty:40,fifty:50,
+  sixty:60,seventy:70,eighty:80,ninety:90,hundred:100,thousand:1000,a:1,an:1};
+var FILLER={and:1,the:1,is:1,equals:1,equal:1,to:1,times:1,divided:1,by:1,x:1,into:1,plus:1,minus:1};
 function parseSpoken(s){
   s=s.replace(/[^a-z0-9\s]/g,'').trim();
   if(/^\d+$/.test(s)) return parseInt(s);
-  var parts=s.split(/\s+/), total=0, cur=0;
+  var parts=s.split(/\s+/),total=0,cur=0;
   for(var i=0;i<parts.length;i++){
     var p=parts[i];
-    if(!p||IGNORE[p]) continue;
+    if(!p||FILLER[p]) continue;
     var n=WM[p];
     if(n!==undefined){
       if(n===100){ cur=cur===0?100:cur*100; }
@@ -448,7 +652,7 @@ function parseSpoken(s){
 }
 
 // ── PROCESS ANSWER ──
-function processAnswer(num, src){
+function processAnswer(num,src){
   if(answered) return;
   answered=true; stopTimer(); killRecog();
   document.getElementById('type-input').disabled=true;
@@ -460,24 +664,24 @@ function processAnswer(num, src){
   if(src==='voice') document.getElementById('mic-heard').textContent=num;
   if(num===correct){
     mic.classList.add('correct'); mic.textContent='✅';
-    if(src==='type'){ document.getElementById('type-input').classList.add('correct'); }
+    if(src==='type') document.getElementById('type-input').classList.add('correct');
     score++;
     fb.textContent='✅ Correct!'; fb.className='feedback-row correct';
     document.getElementById('score-display').textContent=score;
     beepCorrect();
   } else {
     mic.classList.add('wrong'); mic.textContent='❌';
-    if(src==='type'){ document.getElementById('type-input').classList.add('wrong'); }
+    if(src==='type') document.getElementById('type-input').classList.add('wrong');
     wrong++;
     fb.textContent='❌ '+num+' — answer: '+correct; fb.className='feedback-row wrong';
+    mistakes.push({q:questions[qIdx].text, yours:num, correct:correct});
     beepWrong();
   }
-  setTimeout(nextQ, 1100);
+  setTimeout(nextQ,1100);
 }
-
 function nextQ(){ qIdx++; if(qIdx<questions.length) renderQuestion(); else showResult(); }
 
-// ── TYPED INPUT ──
+// ── TYPED ──
 function submitTyped(){
   var inp=document.getElementById('type-input');
   var num=parseInt(inp.value.trim());
@@ -504,10 +708,45 @@ function showResult(){
   document.getElementById('stat-wrong').textContent=wrong;
   document.getElementById('stat-timeout').textContent=timeouts;
   document.getElementById('stat-pct').textContent=pct+'%';
+
+  // ── Wrong answers review ──
+  var sec=document.getElementById('review-section');
+  var list=document.getElementById('review-list');
+  if(mistakes.length===0){
+    sec.style.display='none';
+  } else {
+    sec.style.display='block';
+    list.innerHTML='';
+    for(var i=0;i<mistakes.length;i++){
+      var m=mistakes[i];
+      var row=document.createElement('div');
+      row.className='review-row';
+      row.innerHTML=
+        '<span class="review-q">'+m.q.replace(' = ?','')+'</span>'+
+        '<span><div class="review-tag">You said</div><div class="review-yours">'+m.yours+'</div></span>'+
+        '<span style="color:var(--muted);font-size:.8rem">→</span>'+
+        '<span><div class="review-tag">Answer</div><div class="review-correct">'+m.correct+'</div></span>';
+      list.appendChild(row);
+    }
+  }
 }
-function retryQuiz(){ startQuiz(); }
+function retryQuiz(){
+  try{getACtx();}catch(e){}
+  var pool=mode==='multiply'?buildM():mode==='divide'?buildD():buildM().concat(buildD());
+  questions=shuffle(pool).slice(0,questionCount);
+  qIdx=0; score=0; wrong=0; timeouts=0; mistakes=[];
+  document.getElementById('q-total').textContent=questions.length;
+  document.getElementById('res-total').textContent=questions.length;
+  showScreen('quiz');
+  renderQuestion(); // mic already granted, no need to re-ask
+}
 function goMenu(){ stopTimer(); killRecog(); showScreen('setup'); }
-document.addEventListener('keydown',function(e){ if(e.key==='Enter') submitTyped(); });
+document.addEventListener('keydown',function(e){
+  if(!document.getElementById('pin-screen').classList.contains('active'))
+    if(e.key==='Enter') submitTyped();
+});
+// Build table grid on load
+buildTableGrid();
 </script>
 </body>
 </html>
