@@ -125,7 +125,7 @@
   .menu-btn:hover{border-color:var(--accent);}
 
   /* ── TABLE SELECTOR ── */
-  .table-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;}
+  .table-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;}
   .tbl-btn{background:var(--card2);border:2px solid var(--border);border-radius:10px;padding:9px 4px;font-family:'Boogaloo',cursive;font-size:1.1rem;color:var(--muted);cursor:pointer;transition:all .15s;text-align:center;}
   .tbl-btn:hover{border-color:var(--accent);color:var(--text);}
   .tbl-btn.on{border-color:var(--accent);background:#2a2510;color:var(--accent);}
@@ -157,7 +157,7 @@
 <!-- PIN -->
 <div id="pin-screen" class="screen active">
   <h1>Math Blitz ⚡</h1>
-  <p class="tagline">Enter PIN to play</p>
+  <p class="tagline">Enter PIN to Play</p>
   <div class="pin-card">
     <div class="pin-label">🔒 Enter your 4-digit PIN</div>
     <div class="pin-dots">
@@ -187,7 +187,7 @@
 <!-- SETUP -->
 <div id="setup" class="screen">
   <h1>Math Blitz ⚡</h1>
-  <p class="setup-tagline">Up to 20 × 20</p>
+  <p class="setup-tagline">Up to 12 × 12</p>
   <div class="setting-card">
     <div class="setting-label">Operation</div>
     <div class="pill-row">
@@ -214,7 +214,7 @@
       <button class="count-btn" onclick="changeCount(+1)">+</button>
       <button class="count-btn" onclick="changeCount(+10)">+10</button>
     </div>
-    <div class="count-note" id="count-note">20 questions from 800 available</div>
+    <div class="count-note" id="count-note">20 questions from 288 available</div>
   </div>
   <div class="setting-card">
     <div class="setting-label">Tables to practise</div>
@@ -223,7 +223,7 @@
       <button class="tbl-action" onclick="tableSelectAll()">Select All</button>
       <button class="tbl-action" onclick="tableSelectNone()">Clear All</button>
       <button class="tbl-action" onclick="tableSelect([2,5,10])">2, 5, 10</button>
-      <button class="tbl-action" onclick="tableSelect([6,7,8,9])">6–9</button>
+      <button class="tbl-action" onclick="tableSelect([6,7,8,9,11,12])">6–12</button>
     </div>
     <div class="table-note" id="table-note">All 20 tables selected</div>
   </div>
@@ -332,7 +332,7 @@ document.addEventListener('keydown', function(e){
 });
 
 // ── CONSTANTS ──
-var MAX=20, CIRC=2*Math.PI*33;
+var MAX=12, CIRC=2*Math.PI*33;
 
 // ── TABLE SELECTION ──
 var selectedTables=[];
